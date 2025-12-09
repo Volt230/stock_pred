@@ -1,0 +1,15 @@
+yfinance
+pandas
+numpy
+pandas_ta
+scikit-learn
+tensorflow
+matplotlib
+plotly
+streamlit
+requests
+beautifulsoup4
+textblob
+vaderSentiment
+joblib
+schedule

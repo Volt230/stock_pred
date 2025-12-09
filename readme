@@ -1,0 +1,20 @@
+# Stock Predictor (Demo Project)
+
+## Features
+- Fetch hourly price data for multiple stocks (yfinance)
+- Scrape news headlines (Yahoo Finance) and compute sentiment (VADER/TextBlob)
+- Compute technical indicators (pandas_ta)
+- Train LSTM model to predict next 12 hours and trend (up/down)
+- Streamlit dashboard to visualize actual vs predicted and sample news
+- Simple scheduler to auto-update predictions
+
+## Setup (Windows / macOS / Linux)
+1. Create and activate virtual environment:
+   ```bash
+   python -m venv .venv
+   # Windows (PowerShell)
+   .\.venv\Scripts\Activate.ps1
+   # or CMD
+   .\.venv\Scripts\activate
+   # macOS / Linux
+   source .venv/bin/activate
