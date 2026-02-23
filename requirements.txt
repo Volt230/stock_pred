@@ -1,11 +1,11 @@
 streamlit==1.35.0
-tensorflow
+tensorflow==2.20.0
 protobuf==3.20.3
 yfinance
 pandas
 numpy
-pandas_ta
-scikit-learn
+pandas-ta==0.3.14b0
+rich<14
 tensorflow
 matplotlib
 plotly
