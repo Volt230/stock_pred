@@ -4,11 +4,11 @@ pandas
 numpy
 yfinance
 matplotlib
-plotly
+plotly==5.22.0
 requests
 beautifulsoup4
 textblob
 vaderSentiment
 joblib
 schedule
-rich<14
+rich==13.7.1
