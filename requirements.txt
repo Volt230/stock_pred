@@ -1,4 +1,4 @@
-streamlit==1.35.0
+streamlit>=1.39.0
 tensorflow==2.20.0
 pandas
 numpy
@@ -11,4 +11,3 @@ textblob
 vaderSentiment
 joblib
 schedule
-rich==13.7.1
