@@ -12,3 +12,4 @@ textblob
 vaderSentiment
 joblib
 schedule
+scikit-learn
