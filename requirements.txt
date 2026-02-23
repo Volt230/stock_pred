@@ -4,9 +4,10 @@ pandas
 numpy
 yfinance
 matplotlib
-plotly==5.22.0
+plotly
 requests
 beautifulsoup4
+feedparser
 textblob
 vaderSentiment
 joblib
