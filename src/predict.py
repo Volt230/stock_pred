@@ -25,9 +25,14 @@ class CompatLSTM(tf.keras.layers.LSTM):
 def load_prediction_model(base):
     keras_path = f"{MODELS_DIR}/{base}_lstm.keras"
     h5_path = f"{MODELS_DIR}/{base}_lstm.h5"
+    keras_error = None
 
     if os.path.exists(keras_path):
-        return tf.keras.models.load_model(keras_path, compile=False)
+        try:
+            return tf.keras.models.load_model(keras_path, compile=False)
+        except Exception as exc:
+            keras_error = exc
+            print(f"[WARN] Could not load Keras model {keras_path}: {exc}")
 
     if os.path.exists(h5_path):
         return tf.keras.models.load_model(
@@ -35,6 +40,12 @@ def load_prediction_model(base):
             custom_objects={"LSTM": CompatLSTM},
             compile=False,
         )
+
+    if keras_error is not None:
+        raise FileNotFoundError(
+            f"Keras model failed to load and no H5 fallback was found. "
+            f"Tried {keras_path} and {h5_path}. Original error: {keras_error}"
+        ) from keras_error
 
     raise FileNotFoundError(
         f"Model not found: expected {keras_path} or {h5_path}"
