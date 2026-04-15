@@ -13,6 +13,34 @@ from .preprocessing import load_scaler
 from .utils import ticker_to_safe, save_df
 
 
+class CompatLSTM(tf.keras.layers.LSTM):
+    """Drops legacy config keys so older H5 models can load on newer Keras builds."""
+
+    @classmethod
+    def from_config(cls, config):
+        config.pop("time_major", None)
+        return super().from_config(config)
+
+
+def load_prediction_model(base):
+    keras_path = f"{MODELS_DIR}/{base}_lstm.keras"
+    h5_path = f"{MODELS_DIR}/{base}_lstm.h5"
+
+    if os.path.exists(keras_path):
+        return tf.keras.models.load_model(keras_path, compile=False)
+
+    if os.path.exists(h5_path):
+        return tf.keras.models.load_model(
+            h5_path,
+            custom_objects={"LSTM": CompatLSTM},
+            compile=False,
+        )
+
+    raise FileNotFoundError(
+        f"Model not found: expected {keras_path} or {h5_path}"
+    )
+
+
 # =====================================================================
 #  MAIN FUTURE PREDICTION FUNCTION
 # =====================================================================
@@ -82,11 +110,7 @@ def predict_future_series(ticker, steps=24):
     # ----------------------------------------------------------
     # LOAD MODEL
     # ----------------------------------------------------------
-    model_path = f"{MODELS_DIR}/{base}_lstm.h5"
-    if not os.path.exists(model_path):
-        raise FileNotFoundError("Model not found: " + model_path)
-
-    model = tf.keras.models.load_model(model_path)
+    model = load_prediction_model(base)
 
     # ----------------------------------------------------------
     # FUTURE PREDICTIONS
@@ -139,7 +163,7 @@ def predict_future_series(ticker, steps=24):
     save_path = f"{DATA_DIR}/{base}_future_preds.csv"
     save_df(out, save_path)
 
-    print(f"[OK] Saved future predictions → {save_path}")
+    print(f"[OK] Saved future predictions -> {save_path}")
 
     return out
 

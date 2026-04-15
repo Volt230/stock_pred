@@ -125,7 +125,10 @@ if __name__ == "__main__":
                 verbose=1
             )
 
-            # Save model
+            # Save in the modern Keras format for better cross-environment compatibility.
+            model.save(f"{MODELS_DIR}/{base}_lstm.keras")
+
+            # Keep a legacy H5 copy so existing local workflows still work.
             model.save(f"{MODELS_DIR}/{base}_lstm.h5")
 
             # Save features used
